@@ -1,0 +1,227 @@
+/* General Body and Background Styles */
+body {
+    background-color: #1e1e1e; /* Dark Gray Background */
+    color: #d3d3d3; /* Light Gray Text */
+    font-family: 'Courier New', Courier, monospace; /* Monospaced Font for Hacker Theme */
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Form styles */
+.form-control {
+    background-color: #333; /* Dark input background */
+    color: #c0c0c0; /* Light text color */
+    border: 1px solid #667; /* Border color */
+}
+
+.form-control:focus {
+    border-color: #0f0; /* Bright green focus border */
+    background-color: #222; /* Slightly darker background on focus */
+    color: #e0e0e0;
+}
+
+/* Output area */
+pre {
+    background-color: #000; /* Black background */
+    color: #0f0; /* Green text for code output */
+    border: 1px solid #333; /* Dark border */
+    padding: 10px;
+    white-space: pre-wrap; /* Ensure the text wraps */
+    overflow-x: auto; /* Add horizontal scroll for long lines */
+}
+
+/* Container Styles */
+.container {
+    padding: 20px;
+    flex: 1;
+}
+
+/* Navbar and Footer Styles */
+.navbar {
+    background-color: #0a0a0a; /* Darker Gray for Navbar */
+}
+
+.navbar-nav .nav-link {
+    color: #00ff00; /* Neon Green Text */
+}
+
+.navbar-nav .nav-link:hover {
+    color: #00bfff; /* Bright Blue on Hover */
+}
+
+footer {
+    background-color: #0a0a0a; /* Darker Gray for Footer */
+    color: #00ff00; /* Light Gray Text */
+    padding: 1rem;
+    margin-top: auto;
+}
+
+/* Card Styles */
+.card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background-color: #2a2a2a; /* Slightly Lighter Dark Background for Cards */
+    border: 1px solid #333; /* Dark Border for Cards */
+}
+
+.card-body {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    color: #d3d3d3; /* Light Gray Text */
+}
+
+.card-fixed-height {
+    min-height: 300px; /* Adjust this value as needed */
+}
+
+/* Card Image Styles */
+.card-img-top {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    filter: brightness(0.8); /* Make images slightly darker to fit theme */
+}
+
+/* Card Title and Text Styles */
+.card-title {
+    font-size: 1.25rem;
+    margin-bottom: 0.75rem;
+    text-align: center;
+    color: #00ff00; /* Neon Green for Titles */
+}
+
+.card-text {
+    font-size: 1rem;
+    text-align: center;
+    color: #d3d3d3; /* Light Gray Text */
+}
+
+/* Button Styles */
+.btn-primary {
+    background-color: #00ff00; /* Neon Green */
+    border-color: #00ff00; /* Neon Green Border */
+}
+
+.btn-primary:hover {
+    background-color: #00bfff; /* Bright Blue Hover */
+    border-color: #00bfff; /* Bright Blue Border on Hover */
+}
+
+/* Ensure row gap is consistent */
+.row {
+    margin-bottom: 1.5rem;
+}
+
+/* Title and Heading Styles */
+h1 {
+    text-align: center;
+    color: #00ff00; /* Neon Green for Headings */
+}
+
+
+/* Admin Dashboard Table Styles */
+.table {
+    background-color: #2a2a2a; /* Dark Background for Table */
+    border-collapse: collapse; /* Remove default spacing between borders */
+}
+
+.table th, .table td {
+    border: 1px solid #333; /* Dark Border for Table Cells */
+    padding: 8px;
+    color: #d3d3d3; /* Light Gray Text */
+}
+
+.table thead {
+    background-color: #0a0a0a; /* Darker Background for Table Header */
+}
+
+.table thead th {
+    color: #00ff00; /* Neon Green Text for Header */
+}
+
+.table tbody tr:nth-child(even) {
+    background-color: #1e1e1e; /* Darker Background for Even Rows */
+}
+
+.table tbody tr:nth-child(odd) {
+    background-color: #2a2a2a; /* Darker Background for Odd Rows */
+}
+
+.table tbody tr:hover {
+    background-color: #333; /* Slightly Lighter Background on Hover */
+}
+
+.btn-primary {
+    background-color: #00ff00; /* Neon Green */
+    border-color: #00ff00; /* Neon Green Border */
+}
+
+.btn-primary:hover {
+    background-color: #00bfff; /* Bright Blue on Hover */
+    border-color: #00bfff; /* Bright Blue Border on Hover */
+}
+
+.btn-info {
+    background-color: #00bfff; /* Bright Blue */
+    border-color: #00bfff; /* Bright Blue Border */
+}
+
+.btn-info:hover {
+    background-color: #00aaff; /* Slightly Darker Blue on Hover */
+    border-color: #00aaff; /* Slightly Darker Blue Border on Hover */
+}
+
+.btn-danger {
+    background-color: #ff0000; /* Red */
+    border-color: #ff0000; /* Red Border */
+}
+
+.btn-danger:hover {
+    background-color: #cc0000; /* Darker Red on Hover */
+    border-color: #cc0000; /* Darker Red Border on Hover */
+}
+
+/* Error alert style */
+.alert-container {
+    margin-bottom: 20px;
+}
+
+.alert-danger {
+    background-color: #300; /* Dark red background */
+    color: #f8d7da; /* Light red text */
+    border: 1px solid #f5c6cb; /* Lighter red border */
+}
+
+/* General alert style */
+.alert {
+    padding: 15px;
+    border-radius: 0.25rem;
+    margin-bottom: 1rem;
+}
+
+.alert-success {
+    background-color: #d4edda; /* Light green background */
+    color: #155724; /* Dark green text */
+    border: 1px solid #c3e6cb; /* Light green border */
+}
+
+/* Pagination */
+.page-link {
+    color: #155724;
+    background-color: #000000;
+    border-color: #000000;
+}
+
+.logo {
+    display: block;
+    margin: auto;
+    width: 250px;
+    height: 200px;
+}

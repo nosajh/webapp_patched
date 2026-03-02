@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block title %}Document Management - {{ config.site_name }}{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card bg-dark text-white border-primary">
+                <div class="card-header border-primary">
+                    <h3 class="mb-0">Secure File Upload</h3>
+                </div>
+                <div class="card-body">
+                    <p class="text-muted">Allowed types: PNG, JPG, JPEG, GIF, TXT, PDF only.</p>
+
+                    <!-- Flash Messages -->
+                    {% with messages = get_flashed_messages(with_categories=True) %}
+                        {% if messages %}
+                            {% for category, message in messages %}
+                                <div class="alert alert-{{ category }}">{{ message }}</div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+                    
+                    <form action="{{ url_for('profile.upload_file') }}" method="POST" enctype="multipart/form-data">
+                        <div class="form-group mb-3">
+                            <label for="file">Select File</label>
+                            <input type="file" id="file" name="file" class="form-control bg-secondary text-white" required>
+                        </div>
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary">Upload Document</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="card mt-4 bg-dark text-white border-secondary">
+                <div class="card-header border-secondary">
+                    <h4 class="mb-0">Your Documents</h4>
+                </div>
+                <div class="card-body p-0">
+                    <table class="table table-dark table-hover mb-0">
+                        <thead>
+                            <tr>
+                                <th>Filename</th>
+                                <th class="text-center">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% if uploaded_files %}
+                                {% for filename in uploaded_files %}
+                                    <tr>
+                                        <td class="align-middle">{{ filename }}</td>
+                                        <td class="text-center">
+                                            <!-- 
+                                              CRITICAL SECURITY FIX: 
+                                              1. The "Execute" button is PERMANENTLY REMOVED.
+                                              2. Delete uses POST for CSRF protection.
+                                            -->
+                                            <form action="{{ url_for('profile.delete_file', filename=filename) }}" method="POST" onsubmit="return confirm('Delete this file?');">
+                                                <button type="submit" class="btn btn-danger btn-sm">Remove</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            {% else %}
+                                <tr>

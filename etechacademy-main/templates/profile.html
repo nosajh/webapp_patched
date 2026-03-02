@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+{% block title %}My Profile - {{ config.site_name }}{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <!-- Flash Messages: Essential for feedback on password changes/unrolling -->
+    {% with messages = get_flashed_messages(with_categories=True) %}
+        {% if messages %}
+            <div class="alert-container">
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <div class="card mb-4 bg-dark text-white border-info">
+        <div class="card-header border-info">
+            <h3 class="mb-0">User Profile</h3>
+        </div>
+        <div class="card-body">
+            <p class="card-text"><strong>Username:</strong> <span class="text-success">{{ user.username }}</span></p>
+            <p class="card-text"><strong>Account Role:</strong> <span class="badge badge-info">{{ user.role | upper }}</span></p>
+            
+            <div class="mt-4">
+                <a href="{{ url_for('profile.edit_profile') }}" class="btn btn-primary">Update Settings</a>
+                
+                <!-- 
+                  CRITICAL SECURITY FIX: 
+                  We REMOVED the "Upload File" button. 
+                  Even though the backend is patched, we don't want to give the 
+                  Red Team a target to probe.
+                -->
+            </div>
+        </div>
+    </div>
+
+    {% if user.role == 'instructor' %}
+        <h2 class="mt-4 text-success text-center">Courses You Are Teaching</h2>
+        <div class="row justify-content-center mt-3">
+            {% if courses %}
+                {% for course in courses %}
+                    <div class="col-md-4 mb-3">
+                        <div class="card h-100 bg-dark text-white border-secondary">
+                            <!-- course[3] = image_path, course[1] = title -->
+                            <img src="{{ url_for('static', filename=course[3]) }}" class="card-img-top" alt="Course Image" style="height: 180px; object-fit: cover;">
+                            <div class="card-body">
+                                <h5 class="card-title text-success">{{ course[1] }}</h5>
+                                <p class="card-text small">{{ course[2] }}</p>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="col-12 text-center"><p class="text-muted">You are not currently assigned as an instructor to any courses.</p></div>
+            {% endif %}
+        </div>
+
+    {% elif user.role == 'student' %}
+        <h2 class="mt-4 text-center text-success">Your Enrolled Courses</h2>
+        <div class="row justify-content-center mt-3">
+            {% if courses %}
+                {% for course in courses %}
+                    <div class="col-md-4 mb-3">
+                        <div class="card h-100 bg-dark text-white border-secondary">
+                            <!-- course[3] = image_path, course[1] = title -->
+                            <img src="{{ url_for('static', filename=course[3]) }}" class="card-img-top" alt="Course Image" style="height: 180px; object-fit: cover;">
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title text-success">{{ course[1] }}</h5>
+                                <p class="card-text small">{{ course[2] }}</p>
+                                <div class="mt-auto">
+                                    <!-- 
+                                      FIXED: Changed Unroll/Remove from a Link (GET) to a Form (POST).
+                                      This prevents CSRF attacks where an attacker tricks a student into 
+                                      unrolling from their classes via a hidden link.
+                                    -->
+                                    <form action="{{ url_for('courses.unroll', course_id=course[0]) }}" method="POST" onsubmit="return confirm('Stop attending this course?');">
+                                        <button type="submit" class="btn btn-danger btn-sm w-100">Drop Course</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="col-12 text-center">
+                    <p class="text-muted">You are not enrolled in any courses yet.</p>
+                    <a href="{{ url_for('courses.courses') }}" class="btn btn-outline-success">Browse Courses</a>
+                </div>
+            {% endif %}
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
