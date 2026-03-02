@@ -68,11 +68,14 @@ def get_user() -> Union[User, None]:
                 # We force UTC comparison to match the login.py logic.
                 
                 # Check if expiration from DB has a timezone; if not, assume UTC.
-                if expiration.tzinfo is None:
-                    expiration = expiration.replace(tzinfo=timezone.utc)
+                #if expiration.tzinfo is None:
+                #    expiration = expiration.replace(tzinfo=timezone.utc)
 
-                if expiration < datetime.now(timezone.utc):
-                    logging.info(f"Session {session_id} expired.")
+                #if expiration < datetime.now(timezone.utc):
+                #    logging.info(f"Session {session_id} expired.")
+
+                #timezone naive version should work lol
+                if expiration < datetime.now():
                     return None
                 
                 return User(user_id, username, role)
