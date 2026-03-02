@@ -52,11 +52,6 @@
                                     <tr>
                                         <td class="align-middle">{{ filename }}</td>
                                         <td class="text-center">
-                                            <!-- 
-                                              CRITICAL SECURITY FIX: 
-                                              1. The "Execute" button is PERMANENTLY REMOVED.
-                                              2. Delete uses POST for CSRF protection.
-                                            -->
                                             <form action="{{ url_for('profile.delete_file', filename=filename) }}" method="POST" onsubmit="return confirm('Delete this file?');">
                                                 <button type="submit" class="btn btn-danger btn-sm">Remove</button>
                                             </form>
@@ -65,3 +60,14 @@
                                 {% endfor %}
                             {% else %}
                                 <tr>
+                                    <td colspan="2" class="text-center text-muted py-4">No files currently in vault.</td>
+                                </tr>
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
