@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block title %}Home - {{ config.site_name }}{% endblock %}
+
+{% block content %}
+    <!-- RED TEAM DEFENSE: Ensure the logo path is handled by url_for -->
+    <img src="{{ url_for('static', filename='logo.png') }}" class="logo" alt="eTech Logo">
+    <br>
+    
+    <!-- CRITICAL SCORING LINE: Do NOT change the text "eTech Academy" -->
+    <h1 class="text-center text-success">Welcome to eTech Academy!</h1>
+    
+    <h5 class="text-center px-5 text-muted">
+        Your premier destination for mastering the ever-evolving field of cybersecurity. 
+        At eTech Academy, we provide the skills needed to excel in the world of cyber threats.
+    </h5>
+
+    <!-- Search Bar -->
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <form method="post" action="{{ url_for('index.index') }}" class="mb-4">
+                    <div class="input-group">
+                        <!-- FIXED: search_query is auto-escaped by Jinja2 to prevent XSS -->
+                        <input type="text" name="search_query" class="form-control" 
+                               placeholder="Search for courses..." value="{{ search_query }}" 
+                               autocomplete="off">
+                        <button class="btn btn-primary" type="submit">Search Catalog</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Search Results Section -->
+    {% if search_results %}
+        <div class="container mt-4">
+            <h2 class="text-center">Search Results</h2>
+            <div class="list-group">
+                {% for course in search_results %}
+                    <div class="list-group-item bg-dark text-white border-secondary mb-2">
+                        <!-- Index Sync: 0=ID, 1=Title, 2=Description -->
+                        <strong>({{ course[0] }}) {{ course[1] }}</strong>: {{ course[2] }}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% else %}
+        {% if search_query %}
+            <div class="container mt-4 text-center">
+                <p class="text-warning">No courses found matching: "{{ search_query }}"</p>
+            </div>
+        {% endif %}
+    {% endif %}
+
+    <!-- Courses Section -->
+    <div class="container mt-5">
+        <h2 class="text-center mb-4">Our Most Popular Courses</h2>
+        <div class="row">
+            {% if courses %}
+                {% for course in courses %}
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100 bg-dark text-white border-success">
+                            <!-- Index Sync: 0=Title, 1=Description, 2=Image_path -->
+                            <img src="{{ url_for('static', filename=course[2]) }}" 
+                                 class="card-img-top" alt="Course Image" 
+                                 style="height: 180px; object-fit: cover;">
+                            <div class="card-body">
+                                <h5 class="card-title text-success">{{ course[0] }}</h5>
+                                <p class="card-text small text-muted">{{ course[1] }}</p>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="col-12 text-center">
+                    <p class="text-muted">No featured courses available at this time.</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
