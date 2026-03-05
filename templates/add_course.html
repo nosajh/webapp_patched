@@ -4,7 +4,6 @@
 
 {% block content %}
 <div class="container mt-5">
-    <!-- Flash Messages (Ensures user knows if upload failed) -->
     {% with messages = get_flashed_messages(with_categories=True) %}
     {% if messages %}
     <div class="alert-container">
@@ -19,35 +18,27 @@
 
     <h1>Add a New Course</h1>
     <form method="post" action="{{ url_for('courses.add_course') }}" enctype="multipart/form-data">
-        <div class="form-group mb-3">
-            <label for="title">Course Title:</label>
-            <input type="text" id="title" name="title" class="form-control" required placeholder="e.g. Advanced Networking">
+        <div class="form-group">
+            <label for="title">Title:</label>
+            <input type="text" id="title" name="title" class="form-control" required>
         </div>
-
-        <div class="form-group mb-3">
-            <label for="description">Course Description:</label>
-            <textarea id="description" name="description" class="form-control" rows="4"></textarea>
+        <div class="form-group">
+            <label for="description">Description:</label>
+            <textarea id="description" name="description" class="form-control"></textarea>
         </div>
-
-        <div class="form-group mb-3">
-            <label for="instructor_id">Assign Instructor:</label>
-            <!-- FIXED: Added name="instructor_id" so the data actually reaches the server -->
-            <select class="form-select" id="instructor_id" name="instructor_id" required>
-                <option value="" selected disabled>Choose instructor...</option>
+        <div class="form-group">
+            <label for="instructor_id">Instructor:</label>
+            <select class="form-select" id="instructor_id" name="instructor_id" aria-label="Default select example" required>
+                <option value="" selected>Choose instructor</option>
                 {% for instructor in instructors %}
-                    <!-- instructor[0] is ID, instructor[1] is Username -->
                     <option value="{{ instructor[0] }}">{{ instructor[1] }}</option>
                 {% endfor %}
             </select>
         </div>
-
-        <div class="form-group mb-3">
-            <label for="image">Course Header Image (PNG/JPG only):</label>
-            <input type="file" id="image" name="image" class="form-control" accept="image/png, image/jpeg, image/jpg">
-        </div>
-
-        <button type="submit" class="btn btn-primary">Create Course</button>
-        <a href="{{ url_for('courses.courses') }}" class="btn btn-secondary">Cancel</a>
+        <p>
+            <input type="file" id="image" name="image" accept="image/*">
+        </p>
+        <button type="submit" class="btn btn-primary">Add Course</button>
     </form>
 </div>
 {% endblock %}
