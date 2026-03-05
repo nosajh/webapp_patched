@@ -23,7 +23,7 @@ def login():
                     user_info = cur.fetchone()
 
                     if user_info is None:
-                        return render_template('login.html', error="Incorrect login")
+                        return render_template('login.html', error="Incorrect username or password")
 
                     user_id, role = user_info
                     session_id = uuid.uuid4().hex
