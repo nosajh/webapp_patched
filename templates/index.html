@@ -10,7 +10,6 @@
         Your premier destination for mastering the ever-evolving field of cybersecurity. At eTech Academy, we offer a comprehensive range of courses designed to equip you with the skills and knowledge needed to excel in the dynamic world of cyber threats and security.
     </h5>
 
-    <!-- Search Bar -->
     <div class="container mt-4">
         <form method="post" action="{{ url_for('index.index') }}" class="mb-4">
             <div class="input-group">
@@ -20,12 +19,10 @@
         </form>
     </div>
     
-    <!-- Search Results Section -->
     {% if search_results %}
         <div class="container mt-4">
             <h2 style="text-align: center;">Search Results</h2>
             {% for course in search_results %}
-                <!-- Index Sync: 0=ID, 1=Title, 2=Description -->
                 <p class="index_results"><strong>({{ course[0] }}) {{ course[1] }}</strong>: {{ course[2] }}</p>
             {% endfor %}
         </div>
@@ -37,7 +34,6 @@
         {% endif %}
     {% endif %}
 
-    <!-- Courses Section -->
     <div class="container mt-4">
         <h2 style="text-align: center;">Our Most Popular Courses</h2>
         <div class="row">
@@ -45,7 +41,6 @@
                 {% for course in courses %}
                     <div class="col-md-4 mb-3">
                         <div class="card mb-4 h-100">
-                            <!-- Index Sync: 0=Title, 1=Description, 2=Image_path -->
                             <img src="{{ url_for('static', filename=course[2]) }}" class="card-img-top" alt="{{ course[0] }}">
                             <div class="card-body">
                                 <h5 class="card-title"><strong>{{ course[0] }}</strong></h5>
