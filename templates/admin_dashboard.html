@@ -4,39 +4,36 @@
 
 {% block content %}
 <div class="container mt-5">
-    <!-- Flash Messages: Critical for you to know if your Admin actions worked -->
     {% with messages = get_flashed_messages(with_categories=True) %}
         {% if messages %}
             <div class="alert-container">
                 {% for category, message in messages %}
-                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                    <div class="alert alert-{{ category }}">
+                        {{ message }}
+                    </div>
                 {% endfor %}
             </div>
         {% endif %}
     {% endwith %}
     
     <h2>User Management</h2>
-    <div class="mb-3">
-        <a href="{{ url_for('admin.add_user') }}" class="btn btn-primary">Add New User</a>
-        <a href="{{ url_for('admin.system_monitor') }}" class="btn btn-warning">System Monitor</a>
-    </div>
+    <a href="{{ url_for('admin.add_user') }}" class="btn btn-primary mb-2">Add User</a>
     
-    <!-- Search Form -->
     <form method="GET" action="{{ url_for('admin.admin_dashboard') }}" class="mb-3">
         <div class="input-group">
-            <!-- FIXED: search_query is auto-escaped by Jinja2 to prevent XSS -->
-            <input type="text" name="search" class="form-control" placeholder="Search by username..." value="{{ search_query }}">
-            <button class="btn btn-outline-secondary" type="submit">Search</button>
+            <input type="text" name="search" class="form-control" placeholder="Search for users" value="{{ search_query }}">
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="submit">Search</button>
+            </div>
         </div>
     </form>
 
-    <!-- Table -->
-    <table class="table table-dark table-striped">
+    <table class="table table-striped">
         <thead>
             <tr>
                 <th>ID</th>
                 <th>Username</th>
-                <!-- REMOVED: The Password header -->
+                <th>Password</th>
                 <th>Role</th>
                 <th>Action</th>
             </tr>
@@ -46,19 +43,13 @@
             <tr>
                 <td>{{ user[0] }}</td>
                 <td>{{ user[1] }}</td>
-                <!-- 
-                  CRITICAL: We replaced {{ user[2] }} (the password) with asterisks.
-                  NEVER display passwords on the front end.
-                -->
-                <td>********</td> 
+                <td>********</td>
                 <td>{{ user[3] }}</td>
                 <td>
                     <a href="{{ url_for('admin.edit_user', user_id=user[0]) }}" class="btn btn-info btn-sm">Edit</a>
-                    
                     <form method="POST" action="{{ url_for('admin.admin_dashboard') }}" style="display:inline;">
                         <input type="hidden" name="user_id" value="{{ user[0] }}">
-                        <!-- FIXED: Added confirmation to prevent "Misclick Deletion" by you or an attacker -->
-                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('ARE YOU SURE? This cannot be undone.')">Delete</button>
+                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Delete user?')">Delete</button>
                     </form>
                 </td>
             </tr>
@@ -66,26 +57,38 @@
         </tbody>
     </table>
 
-    <!-- Pagination (Keep this so the Bot can navigate if needed) -->
     <nav>
         <ul class="pagination">
+            {% if current_page > 1 %}
+                <li class="page-item">
+                    <a class="page-link" href="{{ url_for('admin.admin_dashboard', page=current_page - 1) }}" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+            {% endif %}
             {% for page_num in range(1, total_pages + 1) %}
                 <li class="page-item {% if page_num == current_page %}active{% endif %}">
                     <a class="page-link" href="{{ url_for('admin.admin_dashboard', page=page_num) }}">{{ page_num }}</a>
                 </li>
             {% endfor %}
+            {% if current_page < total_pages %}
+                <li class="page-item">
+                    <a class="page-link" href="{{ url_for('admin.admin_dashboard', page=current_page + 1) }}" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            {% endif %}
         </ul>
     </nav>
 
-    <hr class="my-5" style="border-top: 1px solid #444;">
-
     <h2>Course Management</h2>
-    <a href="{{ url_for('courses.add_course') }}" class="btn btn-primary mb-2">Create Course</a>
-    <table class="table table-dark">
+    <a href="{{ url_for('courses.add_course') }}" class="btn btn-primary mb-2">Add Course</a>
+    <table class="table table-striped">
         <thead>
             <tr>
                 <th>ID</th>
                 <th>Title</th>
+                <th>Description</th>
                 <th>Instructor ID</th>
                 <th>Action</th>
             </tr>
@@ -95,11 +98,11 @@
             <tr>
                 <td>{{ course[0] }}</td>
                 <td>{{ course[1] }}</td>
+                <td>{{ course[2] }}</td>
                 <td>{{ course[3] }}</td>
                 <td>
-                    <!-- Use POST for deletion, never GET -->
                     <form method="POST" action="{{ url_for('courses.remove_course', course_id=course[0]) }}" style="display:inline;">
-                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Delete course?')">Remove</button>
+                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Delete course?')">Delete</button>
                     </form>
                 </td>
             </tr>
