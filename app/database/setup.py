@@ -15,12 +15,12 @@ def create_tables():
     # 2. FULL SEED DATA (Restored from original.txt)
     seed_users = [
         ('admin', 'admin123', 'admin'),
-        ('instructor1', 'instructorpass1', 'instructor'),
-        ('instructor2', 'instructorpass2', 'instructor'),
-        ('instructor3', 'instructorpass3', 'instructor'),
         ('student1', 'password1', 'student'),
         ('student2', 'password2', 'student'),
-        ('student3', 'password3', 'student')
+        ('student3', 'password3', 'student'),
+        ('instructor1', 'instructorpass1', 'instructor'),
+        ('instructor2', 'instructorpass2', 'instructor'),
+        ('instructor3', 'instructorpass3', 'instructor')
     ]
 
     seed_courses = [
