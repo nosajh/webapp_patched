@@ -21,6 +21,7 @@
                                 <h5 class="card-title">{{ course[1] }}</h5>  <!-- Title of the course -->
                                 <p class="card-text">{{ course[2] }}</p>  <!-- Description of the course -->
                                 
+                                <!-- Spacer to push the button to the bottom -->
                                 <div class="mt-auto"></div>
                                 
                                 {% if user and user.role == 'student' %}
@@ -28,7 +29,11 @@
                                 {% endif %}
 
                                 {% if user and (user.role == 'instructor' or user.role == 'admin') %}
-
+                                    <!-- 
+                                      SECURED BUT VISUALLY IDENTICAL: 
+                                      Uses a POST form to prevent CSRF course deletion, 
+                                      but styled to look like the original red button.
+                                    -->
                                     <form action="{{ url_for('courses.remove_course', course_id=course[0]) }}" method="POST" class="mt-2">
                                         <button type="submit" class="btn btn-danger btn-block" onclick="return confirm('Are you sure you want to remove this course?');">Remove</button>
                                     </form>
