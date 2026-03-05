@@ -1,63 +1,41 @@
 {% extends "base.html" %}
 
-{% block title %}Login - {{ config.site_name }}{% endblock %}
+{% block title %}Login{% endblock %}
 
 {% block content %}
 <div class="container mt-5">
     <div class="row justify-content-center">
-        <div class="col-md-5">
-            <div class="card bg-dark text-white border-success">
-                <div class="card-header border-success text-center">
-                    <h4 class="mb-0">System Authentication</h4>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="mb-0">Login</h4>
                 </div>
                 <div class="card-body">
-                    <!-- Error handling: Jinja2 escapes this by default to prevent XSS -->
                     {% if error %}
                         <div class="alert alert-danger" role="alert">
                             {{ error }}
                         </div>
                     {% endif %}
 
-                    <!-- 
-                        BOT COMPATIBILITY:
-                        The action and method MUST match the login.py route and the scoring bot.
-                    -->
                     <form action="{{ url_for('login.login') }}" method="post">
-                        <div class="form-group mb-3">
+                        <div class="form-group">
                             <label for="login-username">Username</label>
-                            <!-- 
-                                RED TEAM DEFENSE: 
-                                autocomplete="off" prevents the browser from saving usernames 
-                                on the compromised .5 VM.
-                            -->
-                            <input type="text" id="login-username" name="username" 
-                                   class="form-control" required autocomplete="off">
+                            <input type="text" id="login-username" name="username" class="form-control" required autocomplete="off">
                         </div>
                         
-                        <div class="form-group mb-4">
+                        <div class="form-group">
                             <label for="login-password">Password</label>
-                            <!-- 
-                                RED TEAM DEFENSE: 
-                                autocomplete="current-password" is a hint to browsers not to 
-                                cache this in "Search History" or "Form Data".
-                            -->
-                            <input type="password" id="login-password" name="password" 
-                                   class="form-control" required autocomplete="current-password">
+                            <input type="password" id="login-password" name="password" class="form-control" required autocomplete="current-password">
                         </div>
                         
-                        <div class="d-grid gap-2">
-                            <button type="submit" class="btn btn-success">Login to eTech Academy</button>
-                        </div>
+                        <button type="submit" class="btn btn-success btn-block">Login</button>
                     </form>
-                    
-                    <div class="mt-4 text-center small">
-                        <a href="{{ url_for('forgot_password.forgot_password') }}" class="text-muted">Forgot password?</a>
-                        <span class="mx-2 text-secondary">|</span>
-                        <a href="{{ url_for('register.register') }}" class="text-success">Register new account</a>
-                    </div>
-                </div>
-                <div class="card-footer text-center">
-                    <small class="text-muted">Authorized access only. All activity is logged.</small>
+
+                    <p class="mt-3">
+                        Forgot password? <a href="{{ url_for('forgot_password.forgot_password') }}">Reset</a>
+                        <br>
+                        Don't have an account? <a href="{{ url_for('register.register') }}">Register here</a>
+                    </p>
                 </div>
             </div>
         </div>
