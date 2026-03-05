@@ -1,59 +1,33 @@
 {% extends "base.html" %}
 
-{% block title %}Settings - Edit Profile{% endblock %}
+{% block title %}Edit Profile{% endblock %}
 
 {% block content %}
 <div class="container mt-4">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="card bg-dark text-white border-info">
-                <div class="card-header border-info">
-                    <h3 class="mb-0">Edit Profile</h3>
-                </div>
-                <div class="card-body">
-                    <!-- Flash Messages: REQUIRED to see if the server rejected a bad update -->
-                    {% with messages = get_flashed_messages(with_categories=True) %}
-                        {% if messages %}
-                            {% for category, message in messages %}
-                                <div class="alert alert-{{ category }}">{{ message }}</div>
-                            {% endfor %}
-                        {% endif %}
-                    {% endwith %}
+    {% with messages = get_flashed_messages(with_categories=True) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
 
-                    <form method="POST" action="{{ url_for('profile.edit_profile') }}">
-                        <div class="form-group mb-3">
-                            <label for="username">Current Username</label>
-                            <!-- 
-                                FIXED: Added autocomplete="off" 
-                                This prevents the browser from saving the username in a way 
-                                that a Red Teamer could harvest from the disk.
-                            -->
-                            <input type="text" class="form-control" id="username" name="username" 
-                                   value="{{ user.username }}" required autocomplete="off">
-                        </div>
-
-                        <div class="form-group mb-3">
-                            <label for="password">New Password (or current to keep)</label>
-                            <!-- 
-                                FIXED: Added autocomplete="new-password"
-                                This stops the browser from "helpfully" filling in the OLD password,
-                                which prevents accidental submissions of old credentials.
-                            -->
-                            <input type="password" class="form-control" id="password" name="password" 
-                                   required autocomplete="new-password">
-                        </div>
-
-                        <div class="d-grid gap-2">
-                            <button type="submit" class="btn btn-info">Save Changes</button>
-                            <a href="{{ url_for('profile.profile') }}" class="btn btn-outline-secondary">Cancel</a>
-                        </div>
-                    </form>
+    <div class="card">
+        <div class="card-header">
+            <h3>Edit Profile</h3>
+        </div>
+        <div class="card-body">
+            <form method="POST" action="{{ url_for('profile.edit_profile') }}">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" class="form-control" id="username" name="username" value="{{ user.username }}" required autocomplete="off">
                 </div>
-                <div class="card-footer text-muted text-center">
-                    <!-- Displaying the role helps you notice if the Red Team demoted you -->
-                    <small>Account Role: <span class="text-info">{{ user.role | upper }}</span></small>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control" id="password" name="password" required autocomplete="new-password">
                 </div>
-            </div>
+                <button type="submit" class="btn btn-primary">Update Profile</button>
+            </form>
         </div>
     </div>
 </div>
